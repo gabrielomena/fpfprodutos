@@ -7,7 +7,7 @@ export function NavBars() {
     <>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">FPF Produtos</Navbar.Brand>
+          <Navbar.Brand>FPF Produtos</Navbar.Brand>
           <Nav className="me-auto">
             <NavLink className="nav-link" to="/">
               <ListChecks size={20} className="me-2" />

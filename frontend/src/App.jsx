@@ -4,12 +4,14 @@ import { Index } from "./pages/Index"
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/cadastrar" element={<FormProdutos />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/cadastrar" element={<FormProdutos />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   )
 }
 
