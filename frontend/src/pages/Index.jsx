@@ -1,6 +1,7 @@
 import { Pencil, Trash } from "phosphor-react"
 import { useState } from "react"
-import { Badge, Button, Table } from "react-bootstrap"
+import { Badge, Button } from "react-bootstrap"
+import DataTable from "react-data-table-component"
 import Select from "react-select"
 import makeAnimated from "react-select/animated"
 import Swal from "sweetalert2"
@@ -26,20 +27,76 @@ export function Index() {
     },
   ]
 
+  const columns = [
+    {
+        name: 'Ações',
+        width: "120px",
+        cell: (row) => <><Button title="Editar Produto" className="me-2 px-2 py-1">
+        <Pencil size={20} />
+      </Button>
+      <Button
+        title="Remover Produto"
+        variant="danger"
+        onClick={()=>deletar(row.id)}
+        className="px-2 py-1"
+      >
+        <Trash size={20} />
+      </Button></>
+    },
+    {
+        name: 'Descrição',
+        selector: row => row.descricao,
+    },
+    {
+      name: 'Preço',
+      selector: row => row.preco,
+  },
+  {
+    name: 'Data de Compra',
+    selector: row => row.dataCompra,
+},
+{
+  name: 'Categoria',
+  cell:(row) => <Badge bg="dark">{row.categoria}</Badge>
+},
+];
+
+const paginationComponentOptions = {
+  rowsPerPageText: 'Produtos por página',
+  rangeSeparatorText: 'de',
+  selectAllRowsItem: true,
+  selectAllRowsItemText: 'Todos',
+};
+
+const data = [
+    {
+        id: 1,
+        descricao: 'Playstation',
+        preco: '2500',
+        dataCompra: '01/02/2023',
+        categoria: 'Lazer'
+    },
+    {
+        id: 2,
+        descricao: 'Xbox',
+        preco: '2500',
+        dataCompra: '01/02/2023',
+        categoria: 'Lazer'
+    },
+]
   const [selectedOption, setSelectedOption] = useState(null)
 
   const handleChange = (data) => {
     setSelectedOption(selectedOption)
   }
 
-  const handleDelet = () => {
+  const deletar = (id) => {
     Swal.fire({
-      title: "Você tem certeza que deseja deletar?",
+      title: "Você tem certeza que deseja deletar este produto?",
       showDenyButton: true,
       confirmButtonText: "Sim",
       denyButtonText: "Cancelar",
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         Swal.fire("Saved!", "", "success")
       }
@@ -57,8 +114,15 @@ export function Index() {
         options={opcoes}
         onChange={handleChange}
       />
+     <DataTable
+            columns={columns}
+            data={data}
+            pagination
+            paginationComponentOptions={paginationComponentOptions}
+            highlightOnHover
+        />
 
-      <Table striped bordered hover responsive>
+      {/* <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>Ações</th>
@@ -71,13 +135,14 @@ export function Index() {
         <tbody>
           <tr>
             <td>
-              <Button title="Editar Produto" className="me-2">
+              <Button title="Editar Produto" className="me-2 px-2 py-1">
                 <Pencil size={20} />
               </Button>
               <Button
                 title="Remover Produto"
                 variant="danger"
-                onClick={handleDelet}
+                onClick={deletar}
+                className="px-2 py-1"
               >
                 <Trash size={20} />
               </Button>
@@ -90,7 +155,9 @@ export function Index() {
             </td>
           </tr>
         </tbody>
-      </Table>
+      </Table> */}
     </Layout>
   )
 }
+
+
