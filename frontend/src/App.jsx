@@ -10,7 +10,14 @@ function App() {
         <NavBars />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/cadastrar" element={<FormProdutos />} />
+          <Route
+            path="/cadastrar"
+            element={<FormProdutos titulo="Cadastrar Produto" />}
+          />
+          <Route
+            path="/produto/:id"
+            element={<FormProdutos titulo="Editar Produto" />}
+          />
         </Routes>
       </BrowserRouter>
     </>

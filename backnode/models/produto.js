@@ -8,13 +8,24 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.belongsTo(models.Categoria, {
+        as: "categoria",
+      })
     }
   }
   Produto.init(
     {
       descricao: DataTypes.STRING,
-      preco: DataTypes.DECIMAL(10, 2),
+      preco: {
+        type: DataTypes.DECIMAL(10, 2),
+        set(valor) {
+          if (valor) {
+            this.setDataValue("preco", valor.replace(",", "").replace(".", ","))
+          } else {
+            this.setDataValue("preco", null)
+          }
+        },
+      },
       dataCompra: DataTypes.DATEONLY,
     },
     {
