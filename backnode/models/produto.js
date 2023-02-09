@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(10, 2),
         set(valor) {
           if (valor) {
-            this.setDataValue("preco", valor.replace(",", "").replace(".", ","))
+            this.setDataValue("preco", valor.replace(".", "").replace(",", "."))
           } else {
             this.setDataValue("preco", null)
           }

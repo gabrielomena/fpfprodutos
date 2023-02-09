@@ -14,6 +14,8 @@ export function Index() {
   const [categorias, setCategorias] = useState([])
   const [reload, setReload] = useState(false)
 
+  const [categoriasSelecionadas, setCategoriasSelecionadas] = useState(null)
+
   useEffect(() => {
     api.get("/").then(({ data }) => {
       setProdutosDt(data.data)
@@ -52,7 +54,11 @@ export function Index() {
     },
     {
       name: "Preço",
-      selector: (row) => row.preco,
+      selector: (row) =>
+        new Intl.NumberFormat("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }).format(row.preco),
     },
     {
       name: "Data de Compra",
@@ -72,6 +78,7 @@ export function Index() {
   }
 
   const filtrarProduto = (categorias) => {
+    setCategoriasSelecionadas(categorias)
     api
       .get("/", {
         params: {
@@ -94,6 +101,7 @@ export function Index() {
         api.delete("/produto/" + id).then(({ data }) => {
           Swal.fire("Deletado com Sucesso!", "", "success").then(() => {
             setReload(true)
+            setCategoriasSelecionadas(null)
           })
         })
       }
@@ -106,6 +114,7 @@ export function Index() {
         placeholder="Filtre as Categorias"
         components={animatedComponents}
         className="mb-3"
+        value={categoriasSelecionadas}
         closeMenuOnSelect={true}
         isMulti
         options={categorias}

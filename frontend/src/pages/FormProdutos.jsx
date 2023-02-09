@@ -1,7 +1,7 @@
-import { FloppyDisk } from "phosphor-react"
+import { FloppyDisk, X } from "phosphor-react"
 import { useEffect, useState } from "react"
 import { Button, Card, Col, Form, Row } from "react-bootstrap"
-import CurrencyInput from "react-currency-masked-input"
+import CurrencyInput from "react-currency-input-field"
 import { useNavigate, useParams } from "react-router-dom"
 import Swal from "sweetalert2"
 import { Layout } from "../components/Layout"
@@ -9,26 +9,29 @@ import api from "../config/api"
 
 export function FormProdutos({ titulo }) {
   const [categorias, setCategorias] = useState([])
+  const [descricao, setDescricao] = useState("")
+  const [preco, setPreco] = useState("")
+  const [dataCompra, setDataCompra] = useState("")
+  const [categoriaId, setCategoriaId] = useState(0)
+
   const navigate = useNavigate()
   const { id } = useParams()
-  const [produto, setProduto] = useState({
-    descricao: "",
-    dataCompra: "",
-    preco: "",
-  })
 
   useEffect(() => {
     if (id) {
       api.get("/produto/" + id).then(({ data }) => {
-        setProduto(data)
+        setDescricao(data.descricao)
+        setPreco(data.preco)
+        setDataCompra(data.dataCompra)
+        setCategoriaId(data.categoriaId)
       })
+    } else {
+      setDescricao("")
+      setPreco("")
+      setDataCompra("")
+      setCategoriaId(0)
     }
-  }, [id, setProduto])
-
-  const valorInput = (e) => {
-    console.log(e)
-    setProduto({ ...produto, [e.target.name]: e.target.value })
-  }
+  }, [id])
 
   useEffect(() => {
     api.get("/categorias").then(({ data }) => {
@@ -38,19 +41,47 @@ export function FormProdutos({ titulo }) {
 
   const enviar = (event) => {
     event.preventDefault()
-    api.post("/produtos", { produto: produto }).then((response) => {
-      if (response.status == 200) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Produto Cadastrado com sucesso!",
-          showConfirmButton: false,
-          timer: 1500,
-        }).then(() => {
-          navigate("/")
+    if (id) {
+      api
+        .put("/produto/" + id, {
+          descricao: descricao,
+          preco: preco,
+          dataCompra: dataCompra,
+          categoriaId: categoriaId,
         })
-      }
-    })
+        .then((response) => {
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Produto Editado com sucesso!",
+            showConfirmButton: false,
+            timer: 1500,
+          }).then(() => {
+            navigate("/")
+          })
+        })
+    } else {
+      api
+        .post("/produtos", {
+          descricao: descricao,
+          preco: preco,
+          dataCompra: dataCompra,
+          categoriaId: categoriaId,
+        })
+        .then((response) => {
+          if (response.status == 200) {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Produto Cadastrado com sucesso!",
+              showConfirmButton: false,
+              timer: 1500,
+            }).then(() => {
+              navigate("/")
+            })
+          }
+        })
+    }
   }
 
   return (
@@ -63,23 +94,24 @@ export function FormProdutos({ titulo }) {
               <Form.Group as={Col} controlId="formDescricao">
                 <Form.Label>Descricao</Form.Label>
                 <Form.Control
-                  value={produto.descricao}
+                  value={descricao}
                   type="text"
                   required
                   name="descricao"
                   placeholder="Descrição do Produto"
-                  onChange={valorInput}
+                  onChange={(e) => setDescricao(e.target.value)}
                 />
               </Form.Group>
 
               <Form.Group as={Col} controlId="formGridPassword">
                 <Form.Label>Data da Compra</Form.Label>
                 <Form.Control
-                  value={produto.dataCompra}
+                  value={dataCompra}
                   type="date"
                   required
                   name="dataCompra"
-                  onChange={valorInput}
+                  max={new Date().toISOString().split("T")[0]}
+                  onChange={(e) => setDataCompra(e.target.value)}
                 />
               </Form.Group>
             </Row>
@@ -88,12 +120,11 @@ export function FormProdutos({ titulo }) {
               <Form.Group as={Col} controlId="formGridCity">
                 <Form.Label>Preço</Form.Label>
                 <CurrencyInput
-                  prefix="£"
+                  intlConfig={{ locale: "pt-BR", currency: "BRL" }}
                   name="preco"
-                  placeholder="$1,234,567"
-                  onChange={valorInput}
+                  value={preco}
+                  onValueChange={(e) => setPreco(e)}
                   className="form-control"
-                  value={produto.preco}
                   required
                 />
               </Form.Group>
@@ -103,8 +134,8 @@ export function FormProdutos({ titulo }) {
                 <Form.Select
                   required
                   name="categoriaId"
-                  onChange={valorInput}
-                  value={produto.categoriaId}
+                  onChange={(e) => setCategoriaId(e.target.value)}
+                  value={categoriaId}
                 >
                   <option value="">--- Selecione uma Categoria --- </option>
                   {categorias.map((e) => (
@@ -117,6 +148,15 @@ export function FormProdutos({ titulo }) {
             </Row>
             <Button variant="primary" type="submit">
               <FloppyDisk size={25} /> Salvar
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                navigate("/")
+              }}
+              className="ms-4"
+            >
+              <X size={25} /> Cancelar
             </Button>
           </Form>
         </Card.Body>

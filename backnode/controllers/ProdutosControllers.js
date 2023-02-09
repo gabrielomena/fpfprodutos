@@ -27,8 +27,9 @@ class ProdutosController {
   }
 
   static async store(req, res) {
+    console.log(req.body)
     try {
-      const produto = req.body.produto
+      const produto = req.body
       const result = await Produto.create(produto)
 
       res.status(200).json(result)
@@ -54,8 +55,21 @@ class ProdutosController {
     }
   }
 
+  static async update(req, res) {
+    try {
+      const produto = await Produto.findByPk(req.params.id)
+
+      await produto.update(req.body)
+      res.status(200).json(produto)
+    } catch (e) {
+      res.status(500).json({
+        error: true,
+        message: e.message,
+      })
+    }
+  }
+
   static async destroy(req, res) {
-    console.log(req.params.id)
     try {
       const produto = await Produto.findByPk(req.params.id)
       await produto.destroy()
