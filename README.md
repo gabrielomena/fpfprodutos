@@ -64,5 +64,49 @@ ou
 ```bash
 npm run dev
 ```
+### 3. FRONTEND
+#### 3.1 Volte para a pasta do projeto clonado fpfprodutos e acesse a pasta do frontend
+```bash
+cd frontend
+```
+#### 3.2 Instale as dependências
+```bash
+yarn 
+```
+ou 
+```bash
+npm install
+```
+#### 3.3 Acesse o arquivo api.js na pasta config e altere a baseUrl de acordo com o endereço do servidor backend
+```bash
+cd src/config 
+```
+```bash
+import axios from "axios"
 
+const api = axios.create({
+  baseURL: "http://localhost:3000",
+})
+
+export default api
+```
+#### 3.4 volte para a pasta frontend e start o projeto
+```bash
+yarn dev
+```
+ou 
+```bash
+npm run dev
+```
+## CASO PREFIRA PODE ACESSAR O SISTEMA EM PRODUÇÃO:
+[CLIQUE AQUI PARA VISUALIZAR EM PRODUÇÃO](https://fpfprodutos.gabrielomena.com.br)
+
+## ✅ Features Desenvolvidas
+
+-   [x] API RESTful
+-   [x] Listar produtos
+-   [x] Cadastrar produto
+-   [x] Editar produto
+-   [x] Filtrar por categoria
+-   [x] Excluir produto
 
