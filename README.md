@@ -56,7 +56,19 @@ ou
 ```bash
 npm install
 ```
-#### 2.5 Start o servidor
+### 2.5 Crie o banco de dados usando o sequelize
+```bash
+sequelize db:create
+```
+### 2.6 Rode as migrates
+```bash
+sequelize db:migrate
+```
+### 2.7 Rode a seed de categoria
+```bash
+sequelize db:seed:all
+```
+#### 2.8 Start o servidor
 ```bash
 yarn dev 
 ```
