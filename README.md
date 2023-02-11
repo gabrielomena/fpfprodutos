@@ -4,7 +4,7 @@
 </div>
 
 ![Badge](https://img.shields.io/badge/Version-1.0.0-%23542F61?style=for-the-badge&logo=appveyor)
-![Badge](https://img.shields.io/badge/React-%233570B2?style=for-the-badge&logo=VUE)
+![Badge](https://img.shields.io/badge/React-%233570B2?style=for-the-badge&logo=react)
 
 ## 🛠 Ferramentas
 
