@@ -1,16 +1,16 @@
-DELETE http://localhost:3000/produto/8
+DELETE http://localhost:3000/produto/5
 Accept: application/json
 
 ###
 ## ATUALIZAR PRODUTO
-PUT http://localhost:3000/produto/8
+PUT http://localhost:3000/produto/3
 Content-Type: application/json
 
 {
-  "descricao": "Xbox",
+  "descricao": "Smart TV",
   "dataCompra": "2023-02-18",
-  "preco": "2300.00",
-  "categoriaId": 1
+  "preco": "3492.75",
+  "categoriaId": 2
 }
 
 ###
