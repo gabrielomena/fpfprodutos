@@ -1,0 +1,35 @@
+DELETE http://localhost:3000/produto/8
+Accept: application/json
+
+###
+## ATUALIZAR PRODUTO
+PUT http://localhost:3000/produto/8
+Content-Type: application/json
+
+{
+  "descricao": "Xbox",
+  "dataCompra": "2023-02-18",
+  "preco": "2300.00",
+  "categoriaId": 1
+}
+
+###
+## CADASTRAR PRODUTO
+POST http://localhost:3000/produto
+Content-Type: application/json
+
+{
+  "descricao": "Playstation 5",
+  "preco": "4500.23",
+  "dataCompra": "2023-02-18",
+  "categoriaId": 1
+}
+
+### GET PRODUTOS
+GET http://localhost:3000
+Accept: application/json
+
+###
+GET http://localhost:3000/categorias
+Accept: application/json
+

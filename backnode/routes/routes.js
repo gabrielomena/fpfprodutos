@@ -6,7 +6,7 @@ const routes = express.Router()
 
 routes.get("/", ProdutosController.index)
 
-routes.post("/produtos", ProdutosController.store)
+routes.post("/produto", ProdutosController.store)
 
 routes.get("/produto/:id", ProdutosController.show)
 
